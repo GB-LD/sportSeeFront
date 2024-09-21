@@ -17,7 +17,16 @@ function App() {
         <LeftPannel />
         <BrowserRouter>
           <Routes>
-            <Route path="/dashboard" element={<Dashboard apiPath={apiPath} mockPath={mockPath} isConnectedToBack={isConnectedToBack} userId={userId} />}></Route>
+            <Route path="/dashboard"
+              element={
+                <Dashboard
+                apiPath={apiPath}
+                mockPath={mockPath}
+                isConnectedToBack={isConnectedToBack}
+                userId={userId}
+                />
+              }>
+            </Route>
           </Routes>
         </BrowserRouter>
       </div>
