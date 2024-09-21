@@ -1,0 +1,17 @@
+{
+    "data": {
+        "id": 45,
+        "userInfos": {
+        "firstName": "Thomas",
+        "lastName": "Dupont",
+        "age": 36
+        },
+        "todayScore": 0.67,
+        "keyData": {
+        "calorieCount": 1800,
+        "proteinCount": 140,
+        "carbohydrateCount": 220,
+        "lipidCount": 45
+        }
+    }
+}

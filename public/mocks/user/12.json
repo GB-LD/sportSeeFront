@@ -1,0 +1,17 @@
+{
+    "data": {
+      "id": 12,
+      "userInfos": {
+        "firstName": "Alice",
+        "lastName": "Martin",
+        "age": 28
+      },
+      "todayScore": 0.85,
+      "keyData": {
+        "calorieCount": 2150,
+        "proteinCount": 130,
+        "carbohydrateCount": 250,
+        "lipidCount": 60
+      }
+    }
+  }
