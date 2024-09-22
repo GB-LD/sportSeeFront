@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Router } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Dashboard from "./pages/Dashboard"
 import Header from "./components/Header"
 import LeftPannel from "./components/LeftPannel"
@@ -17,6 +17,7 @@ function App() {
         <LeftPannel />
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" />} />
             <Route path="/dashboard"
               element={
                 <Dashboard
