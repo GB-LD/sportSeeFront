@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import KpiCard from "../components/KpiCard";
 import DailyActivityChart from "../components/charts/DailyActivityChart";
 import AverageSessionsTime from "../components/charts/AverageSessionsTime";
+import TestCharts from "../components/charts/TestCharts";
 
 const Dashboard = (props) => {
   const { apiPath, mockPath, isConnectedToBack, userId} = props;
@@ -46,7 +47,7 @@ const Dashboard = (props) => {
         <p className="text-lg">Félicitation ! Vous avez explosé vos objectifs hier 👏</p>
       </div>
       <div className="flex gap-8 w-full">
-        <div className="flex flex-wrap flex-1">
+        <div className="flex flex-wrap flex-1 gap-8">
           <div className="rounded bg-gray-50 h-80 px-8 py-6 w-full">
             <DailyActivityChart
             apiPath={apiPath}
@@ -55,8 +56,21 @@ const Dashboard = (props) => {
             userId={userId}
             />
           </div>
+          <div className="w-full h-64 flex gap-8">
+            <div className="rounded flex-1">
+              <AverageSessionsTime
+                apiPath={apiPath}
+                mockPath={mockPath}
+                isConnectedToBack={isConnectedToBack}
+                userId={userId}
+              />
+            </div>
+            <div className="flex-1 rounded bg-gray-50">
+            </div>
+            <div className="flex-1 rounded bg-gray-50"></div>
+          </div>
         </div>
-        <div className="flex flex-col w-max">
+        <div className="flex flex-col w-max justify-between">
           {kpiArray && kpiArray.map(data => <KpiCard key={data[0]} type={data[0]} value={data[1]}/>) }
         </div>
       </div>

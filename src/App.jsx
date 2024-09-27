@@ -8,7 +8,7 @@ function App() {
   const apiPath = "http://localhost:3000/"
   const mockPath = "../public/mocks/"
   const isConnectedToBack = false;
-  const userId=13;
+  const userId=12;
 
   return (
     <div className="min-h-screen flex flex-col">

@@ -88,7 +88,6 @@ const DailyActivityChart = (props) => {
         <Tooltip cursor={{ stroke: 'red', strokeWidth: 0, fill: 'rgba(107, 114, 128, 0.2)' }} />
       </BarChart>
     </ResponsiveContainer>
-
   )
 }
 export default DailyActivityChart
