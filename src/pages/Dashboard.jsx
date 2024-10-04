@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import KpiCard from "../components/KpiCard";
 import DailyActivityChart from "../components/charts/DailyActivityChart";
 import AverageSessionsTime from "../components/charts/AverageSessionsTime";
-import TestCharts from "../components/charts/TestCharts";
+import PerformanceChart from "../components/charts/PerformanceChart";
 
 const Dashboard = (props) => {
   const { apiPath, mockPath, isConnectedToBack, userId} = props;
@@ -66,6 +66,14 @@ const Dashboard = (props) => {
               />
             </div>
             <div className="flex-1 rounded bg-gray-50">
+              <div className="rounded w-full h-full bg-[#282D30]">
+                <PerformanceChart
+                  apiPath={apiPath}
+                  mockPath={mockPath}
+                  isConnectedToBack={isConnectedToBack}
+                  userId={userId}
+                />
+              </div>
             </div>
             <div className="flex-1 rounded bg-gray-50"></div>
           </div>
