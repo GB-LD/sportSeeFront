@@ -3,11 +3,13 @@ import KpiCard from "../components/KpiCard";
 import DailyActivityChart from "../components/charts/DailyActivityChart";
 import AverageSessionsTime from "../components/charts/AverageSessionsTime";
 import PerformanceChart from "../components/charts/PerformanceChart";
+import ScoreChart from "../components/charts/ScoreChart";
 
 const Dashboard = (props) => {
   const { apiPath, mockPath, isConnectedToBack, userId} = props;
   const [user, setUser] = useState(null);
   const [kpiData, setKpiData] = useState(null);
+  const [todayScore, setTodayScore] = useState(0)
 
   useEffect(() => {
     const urlBase = isConnectedToBack ? apiPath : mockPath;
@@ -26,6 +28,9 @@ const Dashboard = (props) => {
           setUser(data);
           if (data.data?.keyData) {
             setKpiData(data.data?.keyData);
+          }
+          if (data.data?.todayScore) {
+            setTodayScore(data.data?.todayScore);
           }
         }
       })
@@ -65,8 +70,8 @@ const Dashboard = (props) => {
                 userId={userId}
               />
             </div>
-            <div className="flex-1 rounded bg-gray-50">
-              <div className="rounded w-full h-full bg-[#282D30]">
+            <div className="flex-1 rounded">
+              <div className="rounded w-full h-full bg-[#282D30] p-4">
                 <PerformanceChart
                   apiPath={apiPath}
                   mockPath={mockPath}
@@ -75,7 +80,11 @@ const Dashboard = (props) => {
                 />
               </div>
             </div>
-            <div className="flex-1 rounded bg-gray-50"></div>
+            <div className="flex-1 rounded bg-gray-50">
+              <ScoreChart
+                todayScore = {todayScore}
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-col w-max justify-between">
