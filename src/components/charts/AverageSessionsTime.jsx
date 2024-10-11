@@ -1,12 +1,10 @@
-import { AreaChart, Area, XAxis, YAxis, Rectangle, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import {XAxis, YAxis, Rectangle, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { useEffect, useState } from "react"
 
 const AverageSessionsTime = (props) => {
   const { apiPath, mockPath, isConnectedToBack, userId} = props;
 
   const [sessionsData, setSessionsData] = useState(null);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-
 
   useEffect(() => {
     const urlBase = isConnectedToBack ? apiPath : mockPath;
@@ -27,9 +25,6 @@ const AverageSessionsTime = (props) => {
         })
         .catch(error => console.log("Fetch error: ", error));
     }
-
-    console.log(sessionsData);
-
 }, [apiPath, mockPath, isConnectedToBack, userId]);
 
 

@@ -28,12 +28,11 @@ const DailyActivityChart = (props) => {
                     const kilograms = data.data.sessions.map(session => session.kilogram);
                     const maxKg = Math.max(...kilograms);
                     const minKg = Math.min(...kilograms);
-                    let midKg = (minKg + maxKg) / 2;
+                    let midKg = ((minKg - 1) + (maxKg)) / 2;
 
                     setMaxKilogram(maxKg);
                     setMinKilogram(minKg);
                     setMidKilogram(midKg);
-                    setHorizontalPoints([minKg, midKg, maxKg]);
                 }
             })
             .catch(error => console.log("Fetch error: ", error));
@@ -41,15 +40,16 @@ const DailyActivityChart = (props) => {
 
     }, [apiPath, mockPath, isConnectedToBack, userId]);
 
-    const kilogramDomain = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, maxKilogram + 2] : ['auto', 'auto'];
+    const kilogramDomain = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, maxKilogram] : ['auto', 'auto'];
 
-    const ticks = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, midKilogram , maxKilogram + 1] : [];
+    const ticks = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, midKilogram , maxKilogram] : [];
 
     const generateHorizontalCoordinates = ({ height }) => {
         if (minKilogram !== null && maxKilogram !== null) {
-          const range = (maxKilogram + 1) - (minKilogram - 1);
-          const getYCoordinate = (kgValue) => height - ((kgValue - (minKilogram - 1)) / range) * (height - 47);
-          return [getYCoordinate(maxKilogram), getYCoordinate(midKilogram)];
+          const range = 3;
+          const getMaxCoordinate = (height / range) * 2 - 35;
+          const getMidCoordinate = (height / range) - 35;
+          return [getMaxCoordinate, getMidCoordinate];
         }
 
         return [];
