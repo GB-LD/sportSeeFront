@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Rectangle } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from "recharts";
 import { useEffect, useState } from "react"
 
 const DailyActivityChart = (props) => {
@@ -42,7 +42,9 @@ const DailyActivityChart = (props) => {
     }, [apiPath, mockPath, isConnectedToBack, userId]);
 
     const kilogramDomain = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, maxKilogram + 2] : ['auto', 'auto'];
+
     const ticks = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, midKilogram , maxKilogram + 1] : [];
+
     const generateHorizontalCoordinates = ({ height }) => {
         if (minKilogram !== null && maxKilogram !== null) {
           const range = (maxKilogram + 1) - (minKilogram - 1);
@@ -52,12 +54,25 @@ const DailyActivityChart = (props) => {
 
         return [];
       };
+
     const renderColorfulLegendText = (value) => {
     return <span className="text-gray-500 font-semibold" >{value}</span>;
     };
 
-  return (
+    const CustomTooltip = ({ active, payload }) => {
+      if (active && payload && payload) {
+        console.log(payload);
+        return (
+          <div style={{ backgroundColor: '#E60000', padding: '5px' }}>
+            <p style={{ fontSize: '8px', color: 'white', marginBottom: '5px' }}>{`${payload[0].payload.kilogram}kg`}</p>
+            <p style={{ fontSize: '8px', color: 'white' }}>{`${payload[0].payload.calories}Kcal`}</p>
+          </div>
+        );
+      }
+      return null;
+    };
 
+  return (
     <ResponsiveContainer width="100%" height="100%">
     <h4 className="absolute text-gray-900 font-semibold">Activité quotidienne</h4>
     <BarChart
@@ -85,7 +100,7 @@ const DailyActivityChart = (props) => {
             name="Calories brûlées (kCal)"
             barSize={7}
         />
-        <Tooltip cursor={{ stroke: 'red', strokeWidth: 0, fill: 'rgba(107, 114, 128, 0.2)' }} />
+        <Tooltip content={CustomTooltip} cursor={{ stroke: 'red', strokeWidth: 0, fill: 'rgba(107, 114, 128, 0.2)' }} />
       </BarChart>
     </ResponsiveContainer>
   )

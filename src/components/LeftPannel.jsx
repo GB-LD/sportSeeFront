@@ -5,12 +5,12 @@ import bikeIcon from "../assets/icons/bike-icon.svg";
 
 const LeftPannel = () => {
   return (
-    <div className="bg-black px-7 pb-14 w-max relative flex flex-col justify-center">
+    <div className="bg-black px-7 pb-14 min-w-fit relative flex flex-col justify-center">
         <ul className="flex flex-col gap-2.5">
-            <li><button><img src={zenIcon} alt="icone zen" /></button></li>
-            <li><button><img src={swimIcon} alt="icone nage" /></button></li>
-            <li><button><img src={bikeIcon} alt="icone vélo" /></button></li>
-            <li><button><img src={gymIcon} alt="icone musculation" /></button></li>
+            <li><button><img className="w-16 h-16" src={zenIcon} alt="icone zen" /></button></li>
+            <li><button><img className="w-16 h-16" src={swimIcon} alt="icone nage" /></button></li>
+            <li><button><img className="w-16 h-16" src={bikeIcon} alt="icone vélo" /></button></li>
+            <li><button><img className="w-16 h-16" src={gymIcon} alt="icone musculation" /></button></li>
         </ul>
         <span className="text-white text-sm whitespace-nowrap origin-right -rotate-90 absolute bottom-48 right-1/2">Copiryght, SportSee 2020</span>
     </div>

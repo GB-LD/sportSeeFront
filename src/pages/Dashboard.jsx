@@ -46,12 +46,12 @@ const Dashboard = (props) => {
   const kpiArray = kpiData ? Object.entries(kpiData) : null;
 
   return (
-    <div className="w-full py-16 px-24">
+    <div className="w-full py-16 px-12 2xl:px-24">
       <div className="mb-20">
         <h2 className="mb-10 text-5xl font-semibold">Bonjour <strong className="text-red-500 font-semibold">{user?.data?.userInfos?.firstName}</strong></h2>
         <p className="text-lg">Félicitation ! Vous avez explosé vos objectifs hier 👏</p>
       </div>
-      <div className="flex gap-8 w-full">
+      <div className="flex gap-8 flex-col xl:flex-row">
         <div className="flex flex-wrap flex-1 gap-8">
           <div className="rounded bg-gray-50 h-80 px-8 py-6 w-full">
             <DailyActivityChart
@@ -87,7 +87,7 @@ const Dashboard = (props) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-max justify-between">
+        <div className="flex flex-row min-w-fit justify-between flex-wrap xl:flex-col">
           {kpiArray && kpiArray.map(data => <KpiCard key={data[0]} type={data[0]} value={data[1]}/>) }
         </div>
       </div>
