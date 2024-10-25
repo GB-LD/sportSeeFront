@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import KpiCard from "../components/KpiCard";
 import DailyActivityChart from "../components/charts/DailyActivityChart";
 import AverageSessionsTime from "../components/charts/AverageSessionsTime";
@@ -6,7 +7,9 @@ import PerformanceChart from "../components/charts/PerformanceChart";
 import ScoreChart from "../components/charts/ScoreChart";
 
 const Dashboard = (props) => {
-  const { apiPath, mockPath, isConnectedToBack, userId} = props;
+  const navigate = useNavigate();
+  const userId = useParams().id;
+  const { apiPath, mockPath, isConnectedToBack} = props;
   const [user, setUser] = useState(null);
   const [kpiData, setKpiData] = useState(null);
   const [todayScore, setTodayScore] = useState(0)
@@ -34,7 +37,10 @@ const Dashboard = (props) => {
           }
         }
       })
-      .catch(error => console.log("Fetch error: ", error));
+      .catch(error => {
+        console.log("Fetch error: ", error);
+        navigate("/404");
+      });
     }
 
   }, [apiPath, mockPath, isConnectedToBack, userId]);

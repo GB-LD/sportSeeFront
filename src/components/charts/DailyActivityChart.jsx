@@ -61,7 +61,6 @@ const DailyActivityChart = (props) => {
 
     const CustomTooltip = ({ active, payload }) => {
       if (active && payload && payload) {
-        console.log(payload);
         return (
           <div style={{ backgroundColor: '#E60000', padding: '5px' }}>
             <p style={{ fontSize: '8px', color: 'white', marginBottom: '5px' }}>{`${payload[0].payload.kilogram}kg`}</p>
