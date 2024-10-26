@@ -1,8 +1,7 @@
 import { RadialBarChart, RadialBar, ResponsiveContainer } from 'recharts';
 
-const ScoreChart = (props) => {
-  const score = props.todayScore ? props.todayScore : 0;
-  const dataArray = [{ name: 'score', value: score }];
+const ScoreChart = ({todayScore}) => {
+  const dataArray = [{ name: 'score', value: todayScore }];
 
   return (
     <div className='relative w-full h-full'>
@@ -33,7 +32,7 @@ const ScoreChart = (props) => {
 
       <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[#9b9eac] font-medium leading-7">
         <p className="text-[#282d30] text-xl font-bold">
-          {score * 100} %
+          {todayScore * 100} %
         </p>
         <p>de votre</p>
         <p>objectif</p>

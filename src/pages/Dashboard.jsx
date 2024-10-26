@@ -5,56 +5,47 @@ import DailyActivityChart from "../components/charts/DailyActivityChart";
 import AverageSessionsTime from "../components/charts/AverageSessionsTime";
 import PerformanceChart from "../components/charts/PerformanceChart";
 import ScoreChart from "../components/charts/ScoreChart";
+import { fetchData } from "../services/api/fetchService";
+import { processUserFirstName } from "../services/dataProcessor/userFirstNameProcessor";
+import { processUserKpi } from "../services/dataProcessor/userKpiPorcessor";
+import { processUserScore } from "../services/dataProcessor/userScoreProcessor";
 
-const Dashboard = (props) => {
+const Dashboard = ({ apiPath, mockPath, isConnectedToBack}) => {
   const navigate = useNavigate();
   const userId = useParams().id;
-  const { apiPath, mockPath, isConnectedToBack} = props;
-  const [user, setUser] = useState(null);
+  const [userFirstName, setUserFirstName] = useState('');
   const [kpiData, setKpiData] = useState(null);
-  const [todayScore, setTodayScore] = useState(0)
+  const [todayScore, setTodayScore] = useState(0);
 
   useEffect(() => {
     const urlBase = isConnectedToBack ? apiPath : mockPath;
     const fetchUrl = isConnectedToBack ? `${urlBase}user/${userId}` : `${urlBase}user/${userId}.json`;
 
-    if (fetchUrl) {
-      fetch(fetchUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json()
-      })
-      .then(data => {
-        if (data) {
-          setUser(data);
-          if (data.data?.keyData) {
-            setKpiData(data.data?.keyData);
-          }
-          if (data.data?.todayScore) {
-            setTodayScore(data.data?.todayScore);
-          }
-        }
+    const loadUserData = () => {
+      fetchData(fetchUrl)
+      .then(responseData => {
+        setUserFirstName(processUserFirstName(responseData))
+        setKpiData(processUserKpi(responseData));
+        setTodayScore(processUserScore(responseData));
       })
       .catch(error => {
-        console.log("Fetch error: ", error);
-        navigate("/404");
+        console.error(error);
+        return navigate("/404")
       });
-    }
+    };
 
-  }, [apiPath, mockPath, isConnectedToBack, userId]);
+    loadUserData();
 
-  if(!user) {
+  }, [apiPath, mockPath, isConnectedToBack]);
+
+  if(!userFirstName) {
     return <p>Chargement...</p>
   }
-
-  const kpiArray = kpiData ? Object.entries(kpiData) : null;
 
   return (
     <div className="w-full py-16 px-12 2xl:px-24">
       <div className="mb-20">
-        <h2 className="mb-10 text-5xl font-semibold">Bonjour <strong className="text-red-500 font-semibold">{user?.data?.userInfos?.firstName}</strong></h2>
+        <h2 className="mb-10 text-5xl font-semibold">Bonjour <strong className="text-red-500 font-semibold">{userFirstName}</strong></h2>
         <p className="text-lg">Félicitation ! Vous avez explosé vos objectifs hier 👏</p>
       </div>
       <div className="flex gap-8 flex-col xl:flex-row">
@@ -87,14 +78,12 @@ const Dashboard = (props) => {
               </div>
             </div>
             <div className="flex-1 rounded bg-gray-50">
-              <ScoreChart
-                todayScore = {todayScore}
-              />
+              <ScoreChart todayScore = {todayScore} />
             </div>
           </div>
         </div>
         <div className="flex flex-row min-w-fit justify-between flex-wrap xl:flex-col">
-          {kpiArray && kpiArray.map(data => <KpiCard key={data[0]} type={data[0]} value={data[1]}/>) }
+          {kpiData.map(data => <KpiCard key={data[0]} type={data[0]} value={data[1]}/>) }
         </div>
       </div>
     </div>
