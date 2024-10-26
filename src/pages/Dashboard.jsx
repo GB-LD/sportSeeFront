@@ -83,7 +83,9 @@ const Dashboard = ({ apiPath, mockPath, isConnectedToBack}) => {
           </div>
         </div>
         <div className="flex flex-row min-w-fit justify-between flex-wrap xl:flex-col">
-          {kpiData.map(data => <KpiCard key={data[0]} type={data[0]} value={data[1]}/>) }
+        {kpiData && kpiData.map(({ typeFormatted, valueUnit, iconPath, value }, index) => (
+            <KpiCard key={index} type={typeFormatted} value={`${value} ${valueUnit}`} iconPath={iconPath} />
+          ))}
         </div>
       </div>
     </div>
