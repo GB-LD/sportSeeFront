@@ -4,11 +4,10 @@ import Header from "./components/Header";
 import LeftPannel from "./components/LeftPannel";
 import Error404Page from "./pages/Error404Page";
 
-
 function App() {
   const apiPath = "http://localhost:3000/"
   const mockPath = "../public/mocks/"
-  const isConnectedToBack = false;
+  const isConnectedToBack = true;
 
   return (
     <div className="flex flex-col">
