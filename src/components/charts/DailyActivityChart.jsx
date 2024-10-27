@@ -1,48 +1,35 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from "recharts";
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
+import { fetchData } from "../../services/api/fetchService";
+import { getSessionsData, getMinKilogram, getMidKilogram, getMaxKilogram } from "../../services/dataProcessor/sessionsDataProcessor";
 
-const DailyActivityChart = (props) => {
-    const { apiPath, mockPath, isConnectedToBack, userId} = props;
 
-    const [sessionsData, setSessionsData] = useState(null);
-    const [minKilogram, setMinKilogram] = useState(null);
-    const [maxKilogram, setMaxKilogram] = useState(null);
-    const [midKilogram, setMidKilogram] = useState(null);
+const DailyActivityChart = ({apiPath, mockPath, isConnectedToBack}) => {
+  const userId = useParams().id;
+  const [sessionsData, setSessionsData] = useState(null);
+  const [minKilogram, setMinKilogram] = useState(null);
+  const [maxKilogram, setMaxKilogram] = useState(null);
+  const [midKilogram, setMidKilogram] = useState(null);
 
-    useEffect(() => {
-        const urlBase = isConnectedToBack ? apiPath : mockPath;
-        const fetchUrl = isConnectedToBack ? `${urlBase}user/${userId}/activity` : `${urlBase}user/${userId}/activity.json`;
+  useEffect(() => {
+      const urlBase = isConnectedToBack ? apiPath : mockPath;
+      const fetchUrl = isConnectedToBack ? `${urlBase}user/${userId}/activity` : `${urlBase}user/${userId}/activity.json`;
 
-        if (fetchUrl) {
-            fetch(fetchUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data?.data?.sessions) {
-                    setSessionsData(data?.data?.sessions);
-
-                    const kilograms = data.data.sessions.map(session => session.kilogram);
-                    const maxKg = Math.max(...kilograms);
-                    const minKg = Math.min(...kilograms);
-                    let midKg = ((minKg - 1) + (maxKg)) / 2;
-
-                    setMaxKilogram(maxKg);
-                    setMinKilogram(minKg);
-                    setMidKilogram(midKg);
-                }
-            })
-            .catch(error => console.log("Fetch error: ", error));
-        }
-
-    }, [apiPath, mockPath, isConnectedToBack, userId]);
+      fetchData(fetchUrl)
+      .then(responseData => {
+        setSessionsData(getSessionsData(responseData));
+        setMinKilogram(getMinKilogram(responseData));
+        setMaxKilogram(getMaxKilogram(responseData));
+        setMidKilogram(getMidKilogram(responseData));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [apiPath, mockPath, isConnectedToBack]);
 
     const kilogramDomain = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, maxKilogram] : ['auto', 'auto'];
-
-    const ticks = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, midKilogram , maxKilogram] : [];
+    const ticks = minKilogram !== null && maxKilogram !== null ? [minKilogram - 1, midKilogram - 0.5 , maxKilogram] : [];
 
     const generateHorizontalCoordinates = ({ height }) => {
         if (minKilogram !== null && maxKilogram !== null) {
