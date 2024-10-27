@@ -7,7 +7,7 @@ import Error404Page from "./pages/Error404Page";
 function App() {
   const apiPath = "http://localhost:3000/"
   const mockPath = "../public/mocks/"
-  const isConnectedToBack = true;
+  const isConnectedToBack = false;
 
   return (
     <div className="flex flex-col">

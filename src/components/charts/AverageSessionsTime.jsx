@@ -1,31 +1,22 @@
 import {XAxis, YAxis, Rectangle, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchData } from '../../services/api/fetchService';
+import { getSessionData } from '../../services/dataProcessor/sessionDataProcessor';
 
-const AverageSessionsTime = (props) => {
-  const { apiPath, mockPath, isConnectedToBack, userId} = props;
-
+const AverageSessionsTime = ({ apiPath, mockPath, isConnectedToBack }) => {
+  const userId = useParams().id;
   const [sessionsData, setSessionsData] = useState(null);
 
   useEffect(() => {
     const urlBase = isConnectedToBack ? apiPath : mockPath;
     const fetchUrl = isConnectedToBack ? `${urlBase}user/${userId}/average-sessions` : `${urlBase}user/${userId}/average-sessions.json`;
 
-    if (fetchUrl) {
-        fetch(fetchUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data?.data?.sessions) {
-                setSessionsData(data?.data?.sessions);
-            }
-        })
-        .catch(error => console.log("Fetch error: ", error));
-    }
-}, [apiPath, mockPath, isConnectedToBack, userId]);
+    fetchData(fetchUrl)
+    .then(responseData => {
+      setSessionsData(getSessionData(responseData));
+    });
+}, [apiPath, mockPath, isConnectedToBack]);
 
 
 const CustomTooltip = ({ active, payload }) => {

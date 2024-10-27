@@ -55,7 +55,6 @@ const Dashboard = ({ apiPath, mockPath, isConnectedToBack}) => {
             apiPath={apiPath}
             mockPath={mockPath}
             isConnectedToBack={isConnectedToBack}
-            userId={userId}
             />
           </div>
           <div className="w-full h-64 flex gap-8">
@@ -64,7 +63,6 @@ const Dashboard = ({ apiPath, mockPath, isConnectedToBack}) => {
                 apiPath={apiPath}
                 mockPath={mockPath}
                 isConnectedToBack={isConnectedToBack}
-                userId={userId}
               />
             </div>
             <div className="flex-1 rounded">
@@ -73,7 +71,6 @@ const Dashboard = ({ apiPath, mockPath, isConnectedToBack}) => {
                   apiPath={apiPath}
                   mockPath={mockPath}
                   isConnectedToBack={isConnectedToBack}
-                  userId={userId}
                 />
               </div>
             </div>
